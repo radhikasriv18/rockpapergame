@@ -1,68 +1,88 @@
-  function getComputerChoice() {
-    const myArray = ['rock', 'paper', 'scissors'];
-    const randomElement = myArray[Math.floor(Math.random() * myArray.length)];
-    return randomElement;
-  }
-  
-  function playRound(playerSelection, computerSelection, player, computer) {
-    if (playerSelection === computerSelection) {
-      console.log("It's a tie!");
-    } else if (playerSelection === 'rock' && computerSelection === 'paper') {
-      computer++;
-      console.log("oh no try again");
-    } else if (playerSelection === 'rock' && computerSelection === 'scissors') {
+function computerSelection() {
+  const Arr = ["Rock", "paper", "scissors"];
+  const randomElement = Arr[Math.floor(Math.random() * Arr.length)];
+  return randomElement;
+}
+
+const modal = document.querySelector(".modal");
+const playAgainBtn = document.getElementById("playAgainBtn");
+const closeModalBtn = document.getElementById("closeModalBtn");
+
+function showModal() {
+  modal.style.display = "flex";
+}
+
+function hideModal() {
+  modal.style.display = "none";
+}
+
+playAgainBtn.addEventListener("click", function () {
+  window.location.reload();
+  hideModal();
+});
+closeModalBtn.addEventListener("click", (e) => {
+  hideModal();
+});
+
+const container = document.createElement("div");
+container.classList.add("container");
+document.body.appendChild(container);
+const rock = document.createElement("img");
+rock.src = "rock.jpg";
+rock.alt = "Rock";
+rock.classList.add("rock-btn");
+container.appendChild(rock);
+const Paper = document.createElement("img");
+Paper.src = "paper.jpg";
+Paper.alt = "paper";
+Paper.classList.add("paper-btn");
+container.appendChild(Paper);
+const scissors = document.createElement("img");
+scissors.classList.add("scissors-btn");
+scissors.alt = "scissors";
+scissors.src = "scissors.jpg";
+container.appendChild(scissors);
+const DisplayPlayer = document.createElement("div");
+document.body.appendChild(DisplayPlayer);
+DisplayPlayer.classList.add("result");
+let chances = 5;
+let player = 0;
+let computer = 0;
+
+document.addEventListener("click", (e) => {
+  if (e.target.tagName === "IMG" && chances > 0) {
+    const playerChoice = e.target.alt;
+    const computerChoice = computerSelection();
+
+    if (playerChoice == computerChoice) {
+      console.log("its a draw");
+    } else if (
+      (playerChoice === "Rock" && computerChoice === "scissors") ||
+      (playerChoice === "scissors" && computerChoice === "paper") ||
+      (playerChoice === "paper" && computerChoice === "Rock")
+    ) {
+      console.log(`you won ${playerChoice} ${computerChoice}`);
       player++;
-      console.log("yes");
-    } else if (playerSelection === 'paper' && computerSelection === 'rock') {
-      player++;
-      console.log("yes");
-    } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
+    } else {
+      console.log(`you lose ${playerChoice} ${computerChoice}`);
       computer++;
-      console.log("oh no try again");
-    } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
-      computer++;
-      console.log("oh no try again");
-    } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
-      player++;
-      console.log("yes");
-    } else {
-      console.log("Invalid choice. Please choose 'rock', 'paper', or 'scissors'.");
-      // No need to update player and computer values for invalid input
     }
-  
-    return [player, computer];
-  }
-  
-  function playerSelection() {
-    let ans = prompt("rock, paper, or scissors");
-    let choice = ans.toLowerCase();
-  
-    if (choice === 'rock' || choice === 'paper' || choice === 'scissors') {
-      return choice;
-    } else {
-      console.log("Invalid choice. Please choose 'rock', 'paper', or 'scissors'.");
-      // Recursive call to get a valid choice
-      return playerSelection();
+
+    DisplayPlayer.textContent = `player Chose: ${playerChoice}\n, Computer Chose: ${computerChoice}`;
+    chances--;
+
+    if (chances == 0) {
+      if (player > computer) {
+        console.log("You won!");
+        DisplayPlayer.textContent = `You won!! you Scored ${player}, computer Scored ${computer}`;
+      } else if (computer > player) {
+        console.log("You lose!");
+        DisplayPlayer.textContent = `You Lose!! you Scored ${player}, computer Scored ${computer}`;
+      } else {
+        console.log("It's a tie match!");
+        DisplayPlayer.textContent = `It's a tie!! you Scored ${player}, computer Scored ${computer}`;
+      }
+      showModal();
     }
   }
-  
-  function game() {
-    var player = 0;
-    var computer = 0;
-  
-    for (let i = 0; i < 5; i++) {
-      const playerChoice = playerSelection();
-      const computerChoice = getComputerChoice();
-      [player, computer] = playRound(playerChoice, computerChoice, player, computer);
-    }
-  
-    if (player > computer) {
-      console.log("You won!");
-    } else if (computer > player) {
-      console.log("You lose!");
-    } else {
-      console.log("It's a tie match!");
-    }
-  }
-  
-  game();
+});

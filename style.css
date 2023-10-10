@@ -1,0 +1,32 @@
+body {
+  background-image: url(BG.jpg);
+}
+
+h1 {
+  text-align: center;
+  color: beige;
+  font-size: 50px;
+}
+
+img {
+  margin-top: 50px;
+  margin-right: 50px;
+  border-radius: 30rem;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.result {
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 50px;
+}
+
+.modal {
+  display: none;
+}
